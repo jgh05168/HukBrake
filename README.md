@@ -75,8 +75,8 @@ sequenceDiagram
 ```
 
 ```mermaid
-graph TD
-    A[센서/후진] --> B(STM32 #1);
+graph LR
+    A[후진/DIST 정보] --> B(STM32 #1);
     B --> C(DM795 #1);
     C --> D[CAN 버스];
     subgraph CAN 상세 정보
@@ -88,7 +88,7 @@ graph TD
     end
     D --> E(DM795 #2);
     E --> F(STM32 #2);
-    F --> G[급브레이크 액추];
+    F --> G[브레이크 제어_서보모터];
 ```
 
 ## **6. 시사점**
