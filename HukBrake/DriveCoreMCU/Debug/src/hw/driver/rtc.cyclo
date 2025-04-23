@@ -1,5 +1,0 @@
-../src/hw/driver/rtc.c:16:6:rtcInit	4
-../src/hw/driver/rtc.c:61:6:rtcBackupRegWrite	1
-../src/hw/driver/rtc.c:77:10:rtcBackupRegRead	1
-../src/hw/driver/rtc.c:95:6:HAL_RTC_MspInit	2
-../src/hw/driver/rtc.c:112:6:HAL_RTC_MspDeInit	2

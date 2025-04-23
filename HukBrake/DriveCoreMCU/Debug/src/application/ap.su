@@ -1,3 +1,0 @@
-../src/application/ap.c:16:6:apInit	40	static
-../src/application/ap.c:35:6:apMain	8	static
-../src/application/ap.c:48:13:threadLed	16	static
