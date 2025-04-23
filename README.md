@@ -21,7 +21,7 @@
 
 * **마이크로컨트롤러:** STM32 개발 보드 (2개)
 * **통신 프로토콜:** CAN (Controller Area Network)
-* **CAN 트랜시버:** DM795 (2개)
+* **CAN 트랜시버:** SN65HVD230 (2개)
 * **운영체제:** RTOS (FreeRTOS)
 * **프로그래밍 언어:** C/C++
 * **개발 환경:** STM32CubeIDE
@@ -34,12 +34,12 @@
 * **하드웨어 구성:**
     * **송신 측 (시뮬레이터):**
         * STM32 개발 보드 #1
-        * DM795 #1 CAN 트랜시버
+        * SN65HVD230 #1 CAN 트랜시버
         * 기어 정보 시뮬레이션: 다수의 푸시 버튼 또는 로터리 스위치를 STM32 #1의 GPIO 핀에 연결하여 전진, 후진, 주차 등의 기어 상태를 입력합니다.
         * 거리 센서 시뮬레이션: 가변 저항을 STM32 #1의 ADC 핀에 연결하여 거리 변화를 흉내 내거나, 미리 정의된 거리 값을 사용합니다.
     * **수신 측 (자동 급브레이크):**
         * STM32 개발 보드 #2
-        * DM795 #2 CAN 트랜시버
+        * SN65HVD230 #2 CAN 트랜시버
         * 급브레이크 시뮬레이션: LED 또는 부저를 STM32 #2의 GPIO 핀에 연결하여 급브레이크 작동을 시각적으로 또는 청각적으로 표현합니다.
     * **CAN 버스 연결:** DM795 #1과 DM795 #2의 CAN High (CANH) 및 CAN Low (CANL) 핀을 서로 연결하여 CAN 통신 버스를 구성합니다. 각 트랜시버는 각각의 STM32 보드에 연결됩니다.
 
@@ -60,16 +60,16 @@
 sequenceDiagram
     participant Virtual Sensor & Reverse Info
     participant STM32 #1
-    participant DM795 #1
+    participant SN65HVD230 #1
     participant CAN Bus
-    participant DM795 #2
+    participant SN65HVD230 #2
     participant STM32 #2
     participant Virtual Emergency Brake Actuator
 
     Virtual Sensor & Reverse Info-->>STM32 #1: (가상 센서 & 후진 정보)
-    STM32 #1-->>DM795 #1: 데이터
+    STM32 #1-->>SN65HVD230 #1: 데이터
     DM795 #1-->>CAN Bus: CAN 메시지 전송
-    CAN Bus-->>DM795 #2: CAN 메시지 수신
+    CAN Bus-->>SN65HVD230 #2: CAN 메시지 수신
     DM795 #2-->>STM32 #2: 데이터
     STM32 #2-->>Virtual Emergency Brake Actuator: (가상 급브레이크 액추에이터 작동)
 ```
@@ -77,7 +77,7 @@ sequenceDiagram
 ```mermaid
 graph LR
     A[후진/DIST 정보] --> B(STM32 #1);
-    B --> C(DM795 #1);
+    B --> C(SN65HVD230 #1);
     C --> D[CAN 버스];
     subgraph CAN 상세 정보
         direction LR
@@ -86,7 +86,7 @@ graph LR
         D --o D1
         D --o D2
     end
-    D --> E(DM795 #2);
+    D --> E(SN65HVD230 #2);
     E --> F(STM32 #2);
     F --> G[브레이크 제어_서보모터];
 ```
