@@ -19,11 +19,11 @@
 /* 스레드 2개 정의 (main, led) */
 // 1. 스레드 우선순위
 #define _HW_DEF_RTOS_THREAD_PRI_MAIN          osPriorityNormal
-#define _HW_DEF_RTOS_THREAD_PRI_LED           osPriorityNormal
+#define _HW_DEF_RTOS_THREAD_PRI_MOTOR         osPriorityNormal
 
 // 2. 스레드 스택 메모리
 #define _HW_DEF_RTOS_THREAD_MEM_MAIN          _HW_DEF_RTOS_MEM_SIZE( 2*1024)
-#define _HW_DEF_RTOS_THREAD_MEM_LED           _HW_DEF_RTOS_MEM_SIZE(    256)
+#define _HW_DEF_RTOS_THREAD_MEM_MOTOR         _HW_DEF_RTOS_MEM_SIZE(    256)
 
 #define _USE_HW_RTOS
 
@@ -39,6 +39,9 @@
 #define _USE_HW_RTC
 #define _USE_HW_RESET
 #define _USE_HW_FLASH
+
+#define _USE_HW_MOTOR
+#define 		HW_MOTOR_MAX_CH				1U
 
 #define _USE_HW_LED
 #define 		HW_LED_MAX_CH					1U
