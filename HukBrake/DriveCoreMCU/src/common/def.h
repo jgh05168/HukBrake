@@ -21,6 +21,11 @@
 #define _DEF_LED3					2
 #define _DEF_LED4					3
 
+#define _DEF_MOTOR1					0
+#define _DEF_MOTOR2					1
+#define _DEF_MOTOR3					2
+#define _DEF_MOTOR4					3
+
 #define _DEF_UART1				0
 #define _DEF_UART2				1
 #define _DEF_UART3				2

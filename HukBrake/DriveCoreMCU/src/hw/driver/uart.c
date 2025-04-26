@@ -16,8 +16,8 @@ static uint8_t		 	rx_buf[256];						// 원하는 사이즈로 조절
 
 
 
-UART_HandleTypeDef huart1;
-DMA_HandleTypeDef hdma_usart1_rx;
+UART_HandleTypeDef 		huart1;
+DMA_HandleTypeDef 		hdma_usart1_rx;
 
 
 
@@ -42,7 +42,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
 		case _DEF_UART1:
 			// uart 채널 초기화
 			huart1.Instance = USART1;
-			huart1.Init.BaudRate = 115200;
+			huart1.Init.BaudRate = baud;
 			huart1.Init.WordLength = UART_WORDLENGTH_8B;
 			huart1.Init.StopBits = UART_STOPBITS_1;
 			huart1.Init.Parity = UART_PARITY_NONE;
@@ -56,12 +56,12 @@ bool uartOpen(uint8_t ch, uint32_t baud)
 			qbufferCreate(&qbuffer[ch], rx_buf, 256);
 
 			// dma 초기화
-		  /* DMA controller clock enable */
-		  __HAL_RCC_DMA1_CLK_ENABLE();
-		  /* DMA interrupt init */
-		  /* DMA1_Channel5_IRQn interrupt configuration */
-		  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
-		  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+			/* DMA controller clock enable */
+			__HAL_RCC_DMA1_CLK_ENABLE();
+			/* DMA interrupt init */
+			/* DMA1_Channel5_IRQn interrupt configuration */
+			HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
+			HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
 
 
 			if (HAL_UART_Init(&huart1) == HAL_OK)
@@ -77,15 +77,11 @@ bool uartOpen(uint8_t ch, uint32_t baud)
 				// DMA 사용 시, Flush 기능 추가
 				qbuffer[ch].in = qbuffer[ch].len - hdma_usart1_rx.Instance->CNDTR;
 				qbuffer[ch].out = qbuffer[ch].in;
-
-
 //				// 데이터 수신(인터럽트 방식, 한 바이트 수신)
 //				if (HAL_UART_Receive_IT(&huart1, (uint8_t *)&rx_data[_DEF_UART1], 1) != HAL_OK)
 //				{
 //					ret = false;
 //				}
-
-
 			}
 			break;
 		case _DEF_UART2:
