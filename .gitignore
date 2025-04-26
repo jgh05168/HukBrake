@@ -1,0 +1,5 @@
+# Debug 폴더 무시
+Debug/
+
+# .launch 파일 무시
+*.launch
