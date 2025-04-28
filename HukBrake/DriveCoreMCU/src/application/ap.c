@@ -7,6 +7,7 @@
 
 
 #include "ap.h"
+#include "task.h"
 
 
 
@@ -35,9 +36,12 @@ void apInit(void)
 // main.c : 모든 상위 작업들을 여기서 할 수 있도록
 void apMain(void)
 {
+	ledOn(_DEF_LED1);
 
 	while (1)
 	{
+		logPrintf("LED: %lu\r\n", mills());
+		delay(500);
 	}
 
 }
@@ -51,6 +55,8 @@ static void threadMotor(void const *argument)
 	setMotorSpeed(_DEF_MOTOR1, 100);
   while(1)
   {
-    logPrintf("Speed : %d\r\n", (int)getMoterSpeed(_DEF_MOTOR1));
+//    logPrintf("Speed : %lu\r\n", getMoterSpeed(_DEF_MOTOR1));
+		logPrintf("SPEED: %lu\r\n", mills());
+		delay(100);
   }
 }

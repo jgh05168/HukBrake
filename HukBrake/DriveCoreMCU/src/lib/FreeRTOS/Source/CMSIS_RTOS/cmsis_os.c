@@ -26,7 +26,7 @@
  *  
  *----------------------------------------------------------------------------
  *
- * Portions Copyright © 2016 STMicroelectronics International N.V. All rights reserved.
+ * Portions Copyright ï¿½ 2016 STMicroelectronics International N.V. All rights reserved.
  * Portions Copyright (c) 2013 ARM LIMITED
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
@@ -323,9 +323,9 @@ osStatus osDelay (uint32_t millisec)
 {
 #if INCLUDE_vTaskDelay
   TickType_t ticks = millisec / portTICK_PERIOD_MS;
-  
+
   vTaskDelay(ticks ? ticks : 1);          /* Minimum delay = 1 tick */
-  
+
   return osOK;
 #else
   (void) millisec;
