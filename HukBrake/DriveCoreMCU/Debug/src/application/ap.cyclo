@@ -1,3 +1,0 @@
-../src/application/ap.c:17:6:apInit	2
-../src/application/ap.c:37:6:apMain	1
-../src/application/ap.c:51:13:threadMotor	1
