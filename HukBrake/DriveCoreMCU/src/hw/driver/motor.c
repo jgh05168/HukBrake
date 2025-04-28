@@ -170,14 +170,16 @@ uint32_t getMoterSpeed(uint8_t ch)
   }
 
 	uint32_t arr = __HAL_TIM_GET_AUTORELOAD(&htim2);      						// ARR
+	uint32_t ccr2, ccr3;
+
   switch (ch)
   {
     case _DEF_MOTOR1:
-			uint32_t ccr2 = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_2);  // CCR2
+    	ccr2 = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_2);  // CCR2
 			speed = (ccr2 * 100) / (arr + 1);
-      break;
+			break;
     case _DEF_MOTOR2:
-			uint32_t ccr3 = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_3);  // CCR3
+			ccr3 = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_3);  // CCR3
 			speed = (ccr3 * 100) / (arr + 1);
 			break;
 		case _DEF_MOTOR3:

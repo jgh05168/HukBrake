@@ -23,7 +23,7 @@
 
 // 2. 스레드 스택 메모리
 #define _HW_DEF_RTOS_THREAD_MEM_MAIN          _HW_DEF_RTOS_MEM_SIZE( 2*1024)
-#define _HW_DEF_RTOS_THREAD_MEM_MOTOR         _HW_DEF_RTOS_MEM_SIZE(    256)
+#define _HW_DEF_RTOS_THREAD_MEM_MOTOR         _HW_DEF_RTOS_MEM_SIZE(    512)
 
 #define _USE_HW_RTOS
 
