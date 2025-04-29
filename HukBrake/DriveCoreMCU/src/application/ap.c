@@ -10,6 +10,8 @@
 #include "task.h"
 
 
+osMutexId uartMutexHandle;
+
 
 static void threadMotor(void const *argument);
 
@@ -29,6 +31,9 @@ void apInit(void)
 		logPrintf("threadMotor \t\t: Fail\r\n");
 		while(1);
 	}
+
+	osMutexDef(myMutex01);
+	uartMutexHandle = osMutexCreate(osMutex(myMutex01));
 }
 
 
@@ -37,11 +42,21 @@ void apInit(void)
 void apMain(void)
 {
 	ledOn(_DEF_LED1);
-
+	uint32_t tick = mills();
+	uint32_t t;
 	while (1)
 	{
-		logPrintf("LED: %lu\r\n", mills());
-		delay(500);
+		osMutexWait(uartMutexHandle, osWaitForever);
+		t = mills();
+
+		logPrintf("LED: %lu\r\n", t);
+		osMutexRelease(uartMutexHandle);  // 뮤텍스 해제
+
+		tick += 500;  // 다음 wake-up 시점
+		uint32_t Delay = (tick >mills()) ? (tick - mills()) : 0;
+		if (Delay > 0) {
+			delay(Delay); // 정확한 delay 시간을 설정
+		}
 	}
 
 }
@@ -53,10 +68,19 @@ static void threadMotor(void const *argument)
   UNUSED(argument);
 
 	setMotorSpeed(_DEF_MOTOR1, 100);
+	uint32_t tick = mills();
+	uint32_t t;
   while(1)
   {
-//    logPrintf("Speed : %lu\r\n", getMoterSpeed(_DEF_MOTOR1));
+  	osMutexWait(uartMutexHandle, osWaitForever);
+		t = mills();
 		logPrintf("SPEED: %lu\r\n", mills());
-		delay(100);
+		osMutexRelease(uartMutexHandle);  // 뮤텍스 해제
+
+		tick += 500;  // 다음 wake-up 시점
+		uint32_t Delay = (tick >mills()) ? (tick - mills()) : 0;
+		if (Delay > 0) {
+			delay(Delay); // 정확한 delay 시간을 설정
+		}
   }
 }
