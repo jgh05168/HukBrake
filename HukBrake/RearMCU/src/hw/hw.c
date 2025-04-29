@@ -13,9 +13,8 @@
 void hwInit(void)
 {
 	bspInit();
-	rtcInit();
 
-	resetInit();
+	sonicInit();
 	ledInit();
 	uartInit();
 	flashInit();

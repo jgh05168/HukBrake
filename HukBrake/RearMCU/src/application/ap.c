@@ -11,18 +11,19 @@
 
 void apInit(void)
 {
-	uartOpen(_DEF_UART1, 57600);
+	uartOpen(_DEF_UART1, 115200);
 }
 
 
 // main.c : 모든 상위 작업들을 여기서 할 수 있도록
 void apMain(void)
 {
-
+	double t;
 	while (1)
 	{
-		logPrintf("Hello RTOS : %lu\r\n", mills());
-		delay(500);
+		t = getSonicDist();
+		logPrintf("dist = %.2f\r\n", t);
+		delay(30);
 	}
 
 }
