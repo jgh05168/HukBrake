@@ -5,12 +5,15 @@
  *      Author: kyn05
  */
 
+#include "main.h"
 
 
 int main(void)
 {
   hwInit();
   apInit();
+
+  apMain();
 
   return 0;
 }
