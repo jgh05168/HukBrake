@@ -56,7 +56,11 @@ void delay(uint32_t ms)
 
 uint32_t mills(void)
 {
+#ifdef _USE_HW_RTOS
+	return (uint32_t)xTaskGetTickCount() * portTICK_PERIOD_MS;
+#else
 	return HAL_GetTick();
+#endif
 }
 
 /* printf 기능 구현 */
