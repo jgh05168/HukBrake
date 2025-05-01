@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" version="26.2.14" pages="2">
   <diagram name="페이지-1" id="bV-VDJoUi6MywUOajjM0">
-    <mxGraphModel dx="868" dy="519" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1042" dy="623" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -46,17 +46,11 @@
             <mxPoint x="1000" y="470" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="6h7fnUpnQVIAR-fBUBs6-18" value="&lt;font&gt;CAN_Tx&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" parent="1" vertex="1">
-          <mxGeometry x="510" y="443" width="60" height="30" as="geometry" />
+        <mxCell id="6h7fnUpnQVIAR-fBUBs6-20" value="&lt;span&gt;CAN_T&lt;/span&gt;x&lt;div&gt;(PA12)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" parent="1" vertex="1">
+          <mxGeometry x="910" y="440" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="6h7fnUpnQVIAR-fBUBs6-19" value="&lt;span&gt;CAN_R&lt;/span&gt;x" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" parent="1" vertex="1">
-          <mxGeometry x="570" y="443" width="60" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="6h7fnUpnQVIAR-fBUBs6-20" value="&lt;span&gt;CAN_T&lt;/span&gt;x" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" parent="1" vertex="1">
-          <mxGeometry x="910" y="443" width="60" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="6h7fnUpnQVIAR-fBUBs6-21" value="&lt;span&gt;CAN_R&lt;/span&gt;x" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" parent="1" vertex="1">
-          <mxGeometry x="970" y="443" width="60" height="30" as="geometry" />
+        <mxCell id="6h7fnUpnQVIAR-fBUBs6-21" value="&lt;span&gt;CAN_R&lt;/span&gt;x&lt;div&gt;(PA11)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" parent="1" vertex="1">
+          <mxGeometry x="970" y="440" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="6h7fnUpnQVIAR-fBUBs6-22" value="&lt;span&gt;CAN_&lt;/span&gt;Rx" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" parent="1" vertex="1">
           <mxGeometry x="970" y="527" width="60" height="30" as="geometry" />
@@ -363,6 +357,12 @@
         </mxCell>
         <mxCell id="_FvLLy5niA9-FDdcqiTg-35" value="OUT2" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=7;" parent="1" vertex="1">
           <mxGeometry x="308" y="353" width="22" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="ZNe67Z8rfyecnqNgnsBk-1" value="&lt;span&gt;CAN_T&lt;/span&gt;x&lt;div&gt;(PA12)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="510" y="440" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ZNe67Z8rfyecnqNgnsBk-2" value="&lt;span&gt;CAN_R&lt;/span&gt;x&lt;div&gt;(PA11)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="570" y="440" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
