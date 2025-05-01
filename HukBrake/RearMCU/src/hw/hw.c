@@ -18,4 +18,5 @@ void hwInit(void)
 	ledInit();
 	uartInit();
 	flashInit();
+	canInit();
 }

@@ -15,6 +15,7 @@
 #include "led.h"
 #include "uart.h"
 #include "flash.h"
+#include "can.h"
 
 
 void hwInit(void);
