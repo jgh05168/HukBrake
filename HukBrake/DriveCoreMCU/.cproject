@@ -65,6 +65,9 @@
 							</tool>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.280660927" name="MCU/MPU GCC Linker" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker">
 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script.1706429731" name="Linker Script (-T)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script" value="${workspace_loc:/${ProjName}/src/bsp/ldscript/STM32F103RBTX_FLASH.ld}" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.otherflags.1434358103" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.otherflags" valueType="stringList">
+									<listOptionValue builtIn="false" value="-u _printf_float"/>
+								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input.398751238" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -81,9 +84,6 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.890738892" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1947226977.1122223096" name="tasks.c" rcbsApplicability="disable" resourcePath="src/lib/FreeRTOS/Source/tasks.c" toolsToInvoke="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.783186416.828105628">
-						<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.783186416.828105628" name="MCU/MPU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.783186416"/>
-					</fileInfo>
 					<sourceEntries>
 						<entry excluding="src/lib/FreeRTOS/Source/portable/MemMang/heap_5.c|src/lib/FreeRTOS/Source/portable/MemMang/heap_3.c|src/lib/FreeRTOS/Source/portable/MemMang/heap_2.c|src/lib/FreeRTOS/Source/portable/MemMang/heap_1.c|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM7_MPU|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM7|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM4F|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM4_MPU|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM33_NTZ|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM33|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM3_MPU|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM23_NTZ|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM23|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM0|src/lib/FreeRTOS/Source/portable/Tasking|src/lib/FreeRTOS/Source/portable/RVDS|src/lib/FreeRTOS/Source/portable/Keil|src/lib/FreeRTOS/Source/portable/IAR|src/lib/FreeRTOS/Source/portable/Common|src/lib/FreeRTOS/Source/CMSIS_RTOS_V2|src/lib/cube_f103xx/Core|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
