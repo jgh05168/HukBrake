@@ -20,4 +20,5 @@ void hwInit(void)
 	uartInit();
 	flashInit();
 	motorInit(72 - 1, 100 - 1);			// parameter : prescaler, clock_period
+	canInit();
 }

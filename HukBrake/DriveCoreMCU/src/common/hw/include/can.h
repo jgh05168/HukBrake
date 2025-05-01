@@ -23,7 +23,8 @@ extern "C" {
 extern CAN_HandleTypeDef hcan;
 
 void canInit(void);
-
+void setCanFilter(uint32_t filterMaskHigh, uint32_t filterIdHigh, uint32_t filterMaskLow, uint32_t filterIdLow);
+void canOpen(void);
 
 
 #ifdef __cplusplus

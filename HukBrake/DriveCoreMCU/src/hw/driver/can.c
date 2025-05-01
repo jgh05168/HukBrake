@@ -9,6 +9,16 @@
 #include "can.h"
 
 
+
+/* CAN 관련 변수(필터, 헤더 등) */
+CAN_FilterTypeDef			canFilter;
+CAN_RxHeaderTypeDef		canRxHeader;
+CAN_TxHeaderTypeDef		canTxHeader;
+uint8_t 							canRxData[8];
+uint8_t 							canTxData[8];
+uint32_t 							canTxMailbox;
+
+
 CAN_HandleTypeDef hcan;
 
 
@@ -30,6 +40,30 @@ void canInit(void)
 	{
 		Error_Handler();
 	}
+}
+
+
+void setCanFilter(uint32_t filterMaskHigh, uint32_t filterIdHigh, uint32_t filterMaskLow, uint32_t filterIdLow)
+{
+	canFilter.FilterMaskIdHigh 				= filterMaskHigh 	<< 5;
+	canFilter.FilterIdHigh 						= filterIdHigh 		<< 5;
+	canFilter.FilterMaskIdLow					= filterMaskLow 	<< 5;
+	canFilter.FilterIdLow							= filterIdLow 		<< 5;
+
+	canFilter.FilterMode							= CAN_FILTERMODE_IDMASK;			// 필터를 마스킹 모드로 설정
+	canFilter.FilterScale							= CAN_FILTERSCALE_16BIT;			// 필터 스케일을 16bit로
+	canFilter.FilterFIFOAssignment		= CAN_FILTER_FIFO0;						// FIFO0 사용
+	canFilter.FilterBank 							= 0;
+	canFilter.FilterActivation				= ENABLE;
+
+	HAL_CAN_ConfigFilter(&hcan, &canFilter);
+
+}
+
+void canOpen(void)
+{
+	HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
+	HAL_CAN_Start(&hcan);
 }
 
 
