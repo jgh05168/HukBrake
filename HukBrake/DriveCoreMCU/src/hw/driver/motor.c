@@ -65,6 +65,7 @@ bool motorInit(uint32_t prescaler, uint32_t period)
 
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PA4 */
 	GPIO_InitStruct.Pin = GPIO_PIN_4;
@@ -78,6 +79,12 @@ bool motorInit(uint32_t prescaler, uint32_t period)
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	/*Configure GPIO pin : PC1 */
+	GPIO_InitStruct.Pin = GPIO_PIN_1;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 	return true;
 }
@@ -94,12 +101,13 @@ bool motorOpen(uint8_t ch)
 			{
 				return false;
 			}
+			HAL_TIM_MspPostInit(&htim2);
       if (HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2) != HAL_OK)
 			{
 				return false;
 			}
 
-			HAL_TIM_MspPostInit(&htim2);
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
 
 			is_open[ch] = true;
 			break;
@@ -131,7 +139,37 @@ bool motorOpen(uint8_t ch)
 }
 
 
-void setMotorSpeed(uint8_t ch, uint8_t speed)
+bool motorClose(uint8_t ch)
+{
+	switch (ch)
+	{
+		case _DEF_MOTOR1:
+			if (HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2) != HAL_OK)
+			{
+				return false;
+			}
+			is_open[ch] = false;
+			break;
+		case _DEF_MOTOR2:
+			if (HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3) != HAL_OK)
+			{
+				return false;
+			}
+			is_open[ch] = false;
+			break;
+	}
+
+	return true;
+}
+
+
+bool motorAvailable(uint8_t ch)
+{
+	return is_open[ch];
+}
+
+
+void motorSetSpeed(uint8_t ch, uint8_t speed)
 {
 	if (is_open[ch] == false)
 	{
@@ -160,7 +198,7 @@ void setMotorSpeed(uint8_t ch, uint8_t speed)
 }
 
 
-uint32_t getMoterSpeed(uint8_t ch)
+uint32_t motorGetSpeed(uint8_t ch)
 {
   uint32_t speed = 0;
 
@@ -213,6 +251,21 @@ void motorStop(void)
 {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+}
+
+
+void motorEmergencyState(uint8_t ch)
+{
+	switch (ch)
+	{
+		case _DEF_MOTOR1:
+			// 1. 모터 PWM 차단
+			motorClose(ch);
+			// 2. 릴레이 신호 HIGH
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET);
+
+			break;
+	}
 }
 
 

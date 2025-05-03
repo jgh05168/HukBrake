@@ -21,10 +21,13 @@
 void 			HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle);
 bool 			motorInit(uint32_t prescaler, uint32_t period);
 bool			motorOpen(uint8_t ch);
-void 			setMotorSpeed(uint8_t ch, uint8_t speed);
-uint32_t 	getMoterSpeed(uint8_t ch);
+bool			motorClose(uint8_t ch);
+bool 			motorAvailable(uint8_t ch);
+void 			motorSetSpeed(uint8_t ch, uint8_t speed);
+uint32_t 	motorGetSpeed(uint8_t ch);
 void			motorDir(uint8_t dir);
 void 			motorStop(void);
+void 			motorEmergencyState(uint8_t ch);
 
 #endif
 
