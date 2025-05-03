@@ -18,6 +18,9 @@ uint8_t 							canRxData[8];
 uint8_t 							canTxData[8];
 uint32_t 							canTxMailbox;
 
+/* 센서 데이터 */
+double 								can_rx_ultra;
+
 
 CAN_HandleTypeDef hcan;
 
@@ -40,11 +43,16 @@ void canInit(void)
 	{
 		Error_Handler();
 	}
+
+	/* 센서 데이터 초기화 */
+	can_rx_ultra = 100.0;
 }
 
 
-void setCanFilter(uint32_t filterMaskHigh, uint32_t filterIdHigh, uint32_t filterMaskLow, uint32_t filterIdLow)
+bool setCanFilter(uint32_t filterMaskHigh, uint32_t filterIdHigh, uint32_t filterMaskLow, uint32_t filterIdLow)
 {
+	bool ret = true;
+
 	canFilter.FilterMaskIdHigh 				= filterMaskHigh 	<< 5;
 	canFilter.FilterIdHigh 						= filterIdHigh 		<< 5;
 	canFilter.FilterMaskIdLow					= filterMaskLow 	<< 5;
@@ -58,12 +66,62 @@ void setCanFilter(uint32_t filterMaskHigh, uint32_t filterIdHigh, uint32_t filte
 
 	HAL_CAN_ConfigFilter(&hcan, &canFilter);
 
+	if (HAL_CAN_ConfigFilter(&hcan, &canFilter) != HAL_OK)
+	{
+		return false;
+	}
+
+	return ret;
+
 }
 
-void canOpen(void)
+bool canOpen(void)
 {
-	HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
-	HAL_CAN_Start(&hcan);
+	if (HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)
+	{
+		return false;
+	}
+	if (HAL_CAN_Start(&hcan) != HAL_OK)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
+double canGetUltrasonicData(void)
+{
+	return can_rx_ultra;
+}
+
+
+
+
+void canRxUltrasonicCallback(void)
+{
+	memcpy(&can_rx_ultra, canRxData, sizeof(double));
+}
+
+
+/* CAN RX0 인터럽트 메서드 -------------------------------------------------- */
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) // CAN RX의 FIFO0에 데이터가 수신이 되었을 때 걸리는 인터럽트 함수
+{
+  if (hcan->Instance == CAN1) // CAN1을 사용한다면
+  {
+    // FIFO0에 받아진 데이터 (canRxHeadr) 정보를 사용자가 만든 수신공간인 canRxData에 받아오는 (저장하는) HAL_CAN_GetRxMessage 함수 호출
+    if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &canRxHeader, &canRxData) != HAL_OK)
+    {
+      Error_Handler();
+    }
+    else
+    {
+    	if (canRxHeader.IDE == CAN_ID_STD && canRxHeader.StdId == CAN_STDID_ULTRASONIC)
+    	{
+      	canRxUltrasonicCallback();
+    	}
+    }
+  }
 }
 
 
