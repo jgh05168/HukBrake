@@ -9,9 +9,6 @@
 
 
 
-static void threadLcd(void const *argument);
-
-
 void apInit(void)
 {
 	/* MCU 통신 세팅 */
@@ -21,17 +18,6 @@ void apInit(void)
 	setCanFilter(0x7F0, 0x10C, 0x7F0, 0x10C);
 	canOpen();
 
-
-	osThreadDef(threadLcd, threadLcd, _HW_DEF_RTOS_THREAD_PRI_LCD, 0, _HW_DEF_RTOS_THREAD_MEM_LCD);
-	if (osThreadCreate(osThread(threadLcd), NULL) != NULL)
-	{
-		logPrintf("threadLcd \t\t: OK\r\n");
-	}
-	else
-	{
-		logPrintf("threadLcd \t\t: Fail\r\n");
-		while(1);
-	}
 }
 
 
@@ -48,26 +34,4 @@ void apMain(void)
 
 	}
 
-}
-
-
-// 스레드 콜백 함수(LCD)
-static void threadLcd(void const *argument)
-{
-  UNUSED(argument);
-
-  /* LCD Init */
-  i2cScan();
-  /*
-   * LCD는 I2C가 사용가능할 때에만 동작할 수 있기 때문에,
-   * hw.c에서 init해주지 않고, thread에서 i2c scan 이후에 init해준다.
-   */
-	lcdInit(LCD_ADDR);
-
-  while (1)
-  {
-  	lcdSendCommand(LCD_ADDR, 0b10000000);
-    lcdSendString(LCD_ADDR, "Using 1602 LCD");
-
-  }
 }
