@@ -15,6 +15,15 @@
 #ifdef _USE_HW_ULTRASONIC
 
 /* SONIC Method -------------------------------------------------*/
+
+#define		TIMCLOCK 					72000000
+#define 	PRESCALER 				72
+
+void 				MX_TIM1_Init(void);
+void 				MX_TIM2_Init(void);
+
+void 				delay_us(uint16_t us);
+
 bool 				sonicInit(void);
 double	 		getSonicDist(void);
 
