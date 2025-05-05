@@ -14,8 +14,7 @@ void Error_Handler(void);
 
 
 void bspInit(void)
-{/* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
+{
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
   /* Configure the system clock */
