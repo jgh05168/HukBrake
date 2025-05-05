@@ -50,6 +50,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/lib/rearMCU/Drivers/CMSIS/Device/ST/STM32F1xx/Include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/lib/rearMCU/Drivers/CMSIS/Include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/lib/rearMCU/Drivers/STM32F1xx_HAL_Driver/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/lib/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/lib/FreeRTOS/Source/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/lib/FreeRTOS/Source/portable/GCC/ARM_CM3}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1702653786" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -78,30 +81,8 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.1599768960" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
-					<folderInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.369185175.2012919005" name="/" resourcePath="src/lib/FreeRTOS">
-						<toolChain id="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug.254429247" name="MCU ARM GCC" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug" unusedChildren="">
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.384062794.69620744" name="MCU" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.384062794"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid.550272622.1193526852" name="CPU" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid.550272622"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid.1165824179.1202253774" name="Core" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid.1165824179"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.911810283.74400890" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.911810283"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.1310091919.32591472" name="Defaults" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.1310091919"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.677789840" name="MCU/MPU GCC Assembler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.1255360427"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1080781344" name="MCU/MPU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.859401529"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.671414678" name="MCU/MPU G++ Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.596301464"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.2104537229" name="MCU/MPU GCC Linker" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.2054185395"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.linker.578427526" name="MCU/MPU G++ Linker" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.linker.1009461115"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.archiver.277139622" name="MCU/MPU GCC Archiver" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.archiver.1862215068"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.size.1453146587" name="MCU Size" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.size.1479105964"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objdump.listfile.2109864489" name="MCU Output Converter list file" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objdump.listfile.1914043827"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.hex.1539018499" name="MCU Output Converter Hex" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.hex.1749257333"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.binary.312093019" name="MCU Output Converter Binary" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.binary.853761678"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.verilog.1425335297" name="MCU Output Converter Verilog" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.verilog.234181406"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.srec.1877705487" name="MCU Output Converter Motorola S-rec" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.srec.629356945"/>
-							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.1107646877" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.1599768960"/>
-						</toolChain>
-					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src/lib/FreeRTOS|src/lib/rearMCU/Core" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/lib/FreeRTOS/Source/portable/MemMang/heap_5.c|src/lib/FreeRTOS/Source/portable/MemMang/heap_3.c|src/lib/FreeRTOS/Source/portable/MemMang/heap_2.c|src/lib/FreeRTOS/Source/portable/MemMang/heap_1.c|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM7_MPU|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM7|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM4F|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM4_MPU|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM33_NTZ|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM33|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM3_MPU|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM23_NTZ|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM23|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM0|src/lib/FreeRTOS/Source/portable/Tasking|src/lib/FreeRTOS/Source/portable/RVDS|src/lib/FreeRTOS/Source/portable/Keil|src/lib/FreeRTOS/Source/portable/IAR|src/lib/FreeRTOS/Source/portable/Common|src/lib/FreeRTOS/Source/CMSIS_RTOS_V2|src/lib/rearMCU/Core" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -170,7 +151,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src/lib/rearMCU/Core" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/lib/FreeRTOS/Source/portable/MemMang/heap_5.c|src/lib/FreeRTOS/Source/portable/MemMang/heap_3.c|src/lib/FreeRTOS/Source/portable/MemMang/heap_2.c|src/lib/FreeRTOS/Source/portable/MemMang/heap_1.c|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM7_MPU|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM7|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM4F|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM4_MPU|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM33_NTZ|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM33|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM3_MPU|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM23_NTZ|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM23|src/lib/FreeRTOS/Source/portable/GCC/ARM_CM0|src/lib/FreeRTOS/Source/portable/Tasking|src/lib/FreeRTOS/Source/portable/RVDS|src/lib/FreeRTOS/Source/portable/Keil|src/lib/FreeRTOS/Source/portable/IAR|src/lib/FreeRTOS/Source/portable/Common|src/lib/rearMCU/Core" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

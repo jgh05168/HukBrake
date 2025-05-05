@@ -12,7 +12,7 @@ int main(void)
 {
   hwInit();
   apInit();
-
+  
   apMain();
 
   return 0;
