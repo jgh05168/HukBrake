@@ -99,10 +99,6 @@ bool uartOpen(uint8_t ch, uint32_t baud)
 			is_open[ch] = true;
 			ret = true;
 			break;
-		case _DEF_UART4:
-			is_open[ch] = true;
-			ret = true;
-			break;
 	}
 
 	return ret;
@@ -123,8 +119,6 @@ uint32_t uartAvailable(uint8_t ch)
 				break;
 			case _DEF_UART3:
 				break;
-			case _DEF_UART4:
-				break;
 		}
 
 	return ret;
@@ -143,8 +137,6 @@ uint8_t uartRead(uint8_t ch)
 		case _DEF_UART2:
 			break;
 		case _DEF_UART3:
-			break;
-		case _DEF_UART4:
 			break;
 	}
 
@@ -168,8 +160,6 @@ uint32_t uartWrite(uint8_t ch, uint8_t *p_data, uint16_t length)
 			case _DEF_UART2:
 				break;
 			case _DEF_UART3:
-				break;
-			case _DEF_UART4:
 				break;
 		}
 
@@ -209,8 +199,6 @@ uint32_t uartGetBaud(uint8_t ch)
 				case _DEF_UART2:
 					break;
 				case _DEF_UART3:
-					break;
-				case _DEF_UART4:
 					break;
 			}
 
@@ -269,7 +257,7 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 
 
 
-/* UART Msp BEGIN */
+/* UART Msp ---------------------------------------------- */
 
 void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
 {

@@ -29,9 +29,14 @@
 #define _USE_HW_LED
 #define 		HW_LED_MAX_CH					1U
 
+#define _USE_HW_LCD
+#define 		HW_LCD_MAX_CH					1U
+
 #define _USE_HW_UART
 #define 		HW_UART_MAX_CH 				1U
 
+#define _USE_HW_I2C
+#define 		HW_I2C_MAX_CH					1U
 
 
 #endif /* SRC_HW_HW_DEF_H_ */

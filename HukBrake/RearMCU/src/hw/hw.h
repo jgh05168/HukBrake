@@ -13,7 +13,9 @@
 
 #include "ultra_sonic.h"
 #include "led.h"
+#include "lcd.h"
 #include "uart.h"
+#include "i2c.h"
 #include "flash.h"
 #include "can.h"
 

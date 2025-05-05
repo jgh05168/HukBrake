@@ -9,27 +9,29 @@
 
 
 
-/* CAN variables */
-volatile    uint8_t                 can_rx_flag = 0;
-
-extern      CAN_FilterTypeDef       canFilter;
-extern      CAN_RxHeaderTypeDef     canRxHeader;
-extern      CAN_TxHeaderTypeDef     canTxHeader;
-extern      uint8_t                 canRxData[8];
-extern      uint8_t                 canTxData[8];
-extern      uint32_t                canTxMailbox;
-
-extern 			CAN_HandleTypeDef 			hcan;
-
+static void threadLcd(void const *argument);
 
 
 void apInit(void)
 {
+	/* MCU 통신 세팅 */
 	uartOpen(_DEF_UART1, 115200);
+	i2cOpen(_DEF_I2C1, 100000);
 	/* CAN 세팅 */
-	setCanFilter(0x7FF, 0x10C, 0x7FF, 0x10C);
+	setCanFilter(0x7F0, 0x10C, 0x7F0, 0x10C);
 	canOpen();
 
+
+	osThreadDef(threadLcd, threadLcd, _HW_DEF_RTOS_THREAD_PRI_LCD, 0, _HW_DEF_RTOS_THREAD_MEM_LCD);
+	if (osThreadCreate(osThread(threadLcd), NULL) != NULL)
+	{
+		logPrintf("threadLcd \t\t: OK\r\n");
+	}
+	else
+	{
+		logPrintf("threadLcd \t\t: Fail\r\n");
+		while(1);
+	}
 }
 
 
@@ -49,21 +51,23 @@ void apMain(void)
 }
 
 
-
-
-/* CAN RX0 인터럽트 메서드 */
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) // CAN RX의 FIFO0에 데이터가 수신이 되었을 때 걸리는 인터럽트 함수
+// 스레드 콜백 함수(LCD)
+static void threadLcd(void const *argument)
 {
-  if (hcan->Instance == CAN1) // CAN1을 사용한다면
+  UNUSED(argument);
+
+  /* LCD Init */
+  i2cScan();
+  /*
+   * LCD는 I2C가 사용가능할 때에만 동작할 수 있기 때문에,
+   * hw.c에서 init해주지 않고, thread에서 i2c scan 이후에 init해준다.
+   */
+	lcdInit(LCD_ADDR);
+
+  while (1)
   {
-    // FIFO0에 받아진 데이터 (canRxHeadr) 정보를 사용자가 만든 수신공간인 canRxData에 받아오는 (저장하는) HAL_CAN_GetRxMessage 함수 호출
-    if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &canRxHeader, &canRxData[0]) != HAL_OK)
-    {
-      Error_Handler();
-    }
-    else
-    {
-    	can_rx_flag = 1; // can 수신 인터럽트 플래그 발생.
-    }
+  	lcdSendCommand(LCD_ADDR, 0b10000000);
+    lcdSendString(LCD_ADDR, "Using 1602 LCD");
+
   }
 }
