@@ -17,6 +17,9 @@ void apInit(void)
 	/* CAN 세팅 */
 	setCanFilter(0x7F0, 0x10C, 0x7F0, 0x10C);
 	canOpen();
+	/* LCD 세팅 */
+	lcdInit(2);
+
 
 }
 
@@ -28,6 +31,11 @@ void apMain(void)
 	while (1)
 	{
 		t = getSonicDist();
+		char buf[16];
+		sprintf(buf, "%.2f", (float)t);
+		lcdClear();
+		lcdSetCursor(0, 0);
+		lcdPrintStr(buf);
 		sendCanData(0x100, t);
 //		logPrintf("dist = %.2f\r\n", t);
 		delay(30);
