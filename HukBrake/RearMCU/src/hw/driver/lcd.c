@@ -9,85 +9,297 @@
 #include "lcd.h"
 
 
+extern I2C_HandleTypeDef hi2c1;
 
-extern I2C_HandleTypeDef 		hi2c1;
+uint8_t dpFunction;
+uint8_t dpControl;
+uint8_t dpMode;
+uint8_t dpRows;
+uint8_t dpBacklight;
 
+static void SendCommand(uint8_t);
+static void SendChar(uint8_t);
+static void Send(uint8_t, uint8_t);
+static void Write4Bits(uint8_t);
+static void ExpanderWrite(uint8_t);
+static void PulseEnable(uint8_t);
+static void DelayInit(void);
+static void DelayUS(uint32_t);
 
-void lcdInit(uint8_t lcd_addr)
+uint8_t special1[8] = {
+        0b00000,
+        0b11001,
+        0b11011,
+        0b00110,
+        0b01100,
+        0b11011,
+        0b10011,
+        0b00000
+};
+
+uint8_t special2[8] = {
+        0b11000,
+        0b11000,
+        0b00110,
+        0b01001,
+        0b01000,
+        0b01001,
+        0b00110,
+        0b00000
+};
+
+void lcdInit(uint8_t rows)
 {
-	// Step 1~3: 3번 0x30 전송 (8-bit 명령, upper nibble만)
-	lcdSendInternal(lcd_addr, 0x30, 0);
-	delay(HAL_MAX_DELAY);
-	lcdSendInternal(lcd_addr, 0x30, 0);
-	delay(HAL_MAX_DELAY);
-	lcdSendInternal(lcd_addr, 0x30, 0);
-	delay(HAL_MAX_DELAY);
+  dpRows = rows;
 
-	// Step 4: 0x20 전송 → 4-bit mode 진입
-	lcdSendInternal(lcd_addr, 0x20, 0);
-	delay(HAL_MAX_DELAY);
+  dpBacklight = LCD_BACKLIGHT;
 
-	// 이후는 정식 명령어로 4-bit 모드에서 전송
-	lcdSendCommand(lcd_addr, 0x28); // 4-bit, 2 line, 5x8 font
-	lcdSendCommand(lcd_addr, 0x08); // Display OFF
-	lcdSendCommand(lcd_addr, 0x01); // Clear display
-	delay(HAL_MAX_DELAY);                      // Clear 명령은 딜레이 필요
-	lcdSendCommand(lcd_addr, 0x06); // Entry mode: Increment, No shift
-	lcdSendCommand(lcd_addr, 0x0C); // Display ON, Cursor OFF, Blink OFF
+  dpFunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;
+
+  if (dpRows > 1)
+  {
+    dpFunction |= LCD_2LINE;
+  }
+  else
+  {
+    dpFunction |= LCD_5x10DOTS;
+  }
+
+  /* Wait for initialization */
+  DelayInit();
+  delay(50);
+
+  ExpanderWrite(dpBacklight);
+  delay(1000);
+
+  /* 4bit Mode */
+  Write4Bits(0x03 << 4);
+  DelayUS(4500);
+
+  Write4Bits(0x03 << 4);
+  DelayUS(4500);
+
+  Write4Bits(0x03 << 4);
+  DelayUS(4500);
+
+  Write4Bits(0x02 << 4);
+  DelayUS(100);
+
+  /* Display Control */
+  SendCommand(LCD_FUNCTIONSET | dpFunction);
+
+  dpControl = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
+  lcdDisplay();
+  lcdClear();
+
+  /* Display Mode */
+  dpMode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
+  SendCommand(LCD_ENTRYMODESET | dpMode);
+  DelayUS(4500);
+
+  lcdCreateSpecialChar(0, special1);
+  lcdCreateSpecialChar(1, special2);
+
+  lcdHome();
 }
 
-bool i2cScan(void)
+void lcdClear()
 {
-	for(uint16_t i = 0; i < 128; i++)
-	{
-		if (HAL_I2C_IsDeviceReady(&hi2c1, i << 1, 1, 10) != HAL_OK)
-		{
-			return false;
-		}
-
-	}
-	return true;
+  SendCommand(LCD_CLEARDISPLAY);
+  DelayUS(2000);
 }
 
-HAL_StatusTypeDef lcdSendInternal(uint8_t lcd_addr, uint8_t data, uint8_t flags)
+void lcdHome()
 {
-	HAL_StatusTypeDef res;
-	for(;;)
-	{
-		res = HAL_I2C_IsDeviceReady(&hi2c1, lcd_addr, 1, HAL_MAX_DELAY);
-		if(res == HAL_OK)
-			break;
-	}
-
-	uint8_t up = data & 0xF0;
-	uint8_t lo = (data << 4) & 0xF0;
-
-	uint8_t data_arr[4];
-	data_arr[0] = up|flags|BACKLIGHT|PIN_EN;
-	data_arr[1] = up|flags|BACKLIGHT;
-	data_arr[2] = lo|flags|BACKLIGHT|PIN_EN;
-	data_arr[3] = lo|flags|BACKLIGHT;
-
-	res = HAL_I2C_Master_Transmit(&hi2c1, lcd_addr, data_arr, sizeof(data_arr), HAL_MAX_DELAY);
-	delay(LCD_DELAY_MS);
-	return res;
+  SendCommand(LCD_RETURNHOME);
+  DelayUS(2000);
 }
 
-void lcdSendCommand(uint8_t lcd_addr, uint8_t cmd)
+void lcdSetCursor(uint8_t col, uint8_t row)
 {
-	lcdSendInternal(lcd_addr, cmd, 0);
+  int row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
+  if (row >= dpRows)
+  {
+    row = dpRows-1;
+  }
+  SendCommand(LCD_SETDDRAMADDR | (col + row_offsets[row]));
 }
 
-void lcdSendData(uint8_t lcd_addr, uint8_t data)
+void lcdNoDisplay()
 {
-	lcdSendInternal(lcd_addr, data, PIN_RS);
+  dpControl &= ~LCD_DISPLAYON;
+  SendCommand(LCD_DISPLAYCONTROL | dpControl);
 }
 
-void lcdSendString(uint8_t lcd_addr, char *str)
+void lcdDisplay()
 {
-	while(*str)
-	{
-		lcdSendData(lcd_addr, (uint8_t)(*str));
-		str++;
-	}
+  dpControl |= LCD_DISPLAYON;
+  SendCommand(LCD_DISPLAYCONTROL | dpControl);
+}
+
+void lcdNoCursor()
+{
+  dpControl &= ~LCD_CURSORON;
+  SendCommand(LCD_DISPLAYCONTROL | dpControl);
+}
+
+void lcdCursor()
+{
+  dpControl |= LCD_CURSORON;
+  SendCommand(LCD_DISPLAYCONTROL | dpControl);
+}
+
+void lcdNoBlink()
+{
+  dpControl &= ~LCD_BLINKON;
+  SendCommand(LCD_DISPLAYCONTROL | dpControl);
+}
+
+void lcdBlink()
+{
+  dpControl |= LCD_BLINKON;
+  SendCommand(LCD_DISPLAYCONTROL | dpControl);
+}
+
+void lcdScrollDisplayLeft(void)
+{
+  SendCommand(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVELEFT);
+}
+
+void lcdScrollDisplayRight(void)
+{
+  SendCommand(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVERIGHT);
+}
+
+void lcdLeftToRight(void)
+{
+  dpMode |= LCD_ENTRYLEFT;
+  SendCommand(LCD_ENTRYMODESET | dpMode);
+}
+
+void lcdRightToLeft(void)
+{
+  dpMode &= ~LCD_ENTRYLEFT;
+  SendCommand(LCD_ENTRYMODESET | dpMode);
+}
+
+void lcdAutoScroll(void)
+{
+  dpMode |= LCD_ENTRYSHIFTINCREMENT;
+  SendCommand(LCD_ENTRYMODESET | dpMode);
+}
+
+void lcdNoAutoScroll(void)
+{
+  dpMode &= ~LCD_ENTRYSHIFTINCREMENT;
+  SendCommand(LCD_ENTRYMODESET | dpMode);
+}
+
+void lcdCreateSpecialChar(uint8_t location, uint8_t charmap[])
+{
+  location &= 0x7;
+  SendCommand(LCD_SETCGRAMADDR | (location << 3));
+  for (int i=0; i<8; i++)
+  {
+    SendChar(charmap[i]);
+  }
+}
+
+void lcdPrintSpecialChar(uint8_t index)
+{
+  SendChar(index);
+}
+
+void lcdLoadCustomCharacter(uint8_t char_num, uint8_t *rows)
+{
+  lcdCreateSpecialChar(char_num, rows);
+}
+
+void lcdPrintStr(const char c[])
+{
+  while(*c) SendChar(*c++);
+}
+
+void lcdSetBacklight(uint8_t new_val)
+{
+  if(new_val) lcdBacklight();
+  else lcdNoBacklight();
+}
+
+void lcdNoBacklight(void)
+{
+  dpBacklight=LCD_NOBACKLIGHT;
+  ExpanderWrite(0);
+}
+
+void lcdBacklight(void)
+{
+  dpBacklight=LCD_BACKLIGHT;
+  ExpanderWrite(0);
+}
+
+static void SendCommand(uint8_t cmd)
+{
+  Send(cmd, 0);
+}
+
+static void SendChar(uint8_t ch)
+{
+  Send(ch, RS);
+}
+
+static void Send(uint8_t value, uint8_t mode)
+{
+  uint8_t highnib = value & 0xF0;
+  uint8_t lownib = (value<<4) & 0xF0;
+  Write4Bits((highnib)|mode);
+  Write4Bits((lownib)|mode);
+}
+
+static void Write4Bits(uint8_t value)
+{
+  ExpanderWrite(value);
+  PulseEnable(value);
+}
+
+static void ExpanderWrite(uint8_t _data)
+{
+  uint8_t data = _data | dpBacklight;
+  HAL_I2C_Master_Transmit(&hi2c1, DEVICE_ADDR, (uint8_t*)&data, 1, 10);
+}
+
+static void PulseEnable(uint8_t _data)
+{
+  ExpanderWrite(_data | ENABLE);
+  DelayUS(20);
+
+  ExpanderWrite(_data & ~ENABLE);
+  DelayUS(20);
+}
+
+static void DelayInit(void)
+{
+  CoreDebug->DEMCR &= ~CoreDebug_DEMCR_TRCENA_Msk;
+  CoreDebug->DEMCR |=  CoreDebug_DEMCR_TRCENA_Msk;
+
+  DWT->CTRL &= ~DWT_CTRL_CYCCNTENA_Msk; //~0x00000001;
+  DWT->CTRL |=  DWT_CTRL_CYCCNTENA_Msk; //0x00000001;
+
+  DWT->CYCCNT = 0;
+
+  /* 3 NO OPERATION instructions */
+  __ASM volatile ("NOP");
+  __ASM volatile ("NOP");
+  __ASM volatile ("NOP");
+}
+
+static void DelayUS(uint32_t us) {
+  uint32_t cycles = (SystemCoreClock/1000000L)*us;
+  uint32_t start = DWT->CYCCNT;
+  volatile uint32_t cnt;
+
+  do
+  {
+    cnt = DWT->CYCCNT - start;
+  } while(cnt < cycles);
 }
