@@ -90,11 +90,24 @@ bool canOpen(void)
 }
 
 
+void canSendDataInt(uint32_t StdId, uint32_t data)
+{
+	canTxHeader.StdId 		= StdId;
+	canTxHeader.RTR 			= CAN_RTR_DATA;
+	canTxHeader.IDE				= CAN_ID_STD;				// standard can(CAN2.0A)
+	canTxHeader.DLC				= 4;								// DLC : Data Length Code
+
+	memcpy(canTxData, &data, sizeof(uint32_t));
+
+	canTxMailbox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
+	HAL_CAN_AddTxMessage(&hcan, &canTxHeader, canTxData, &canTxMailbox);
+}
+
+
 double canGetUltrasonicData(void)
 {
 	return can_rx_ultra;
 }
-
 
 
 

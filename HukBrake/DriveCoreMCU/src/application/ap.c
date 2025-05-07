@@ -90,6 +90,8 @@ static void threadMotor(void const *argument)
 			osThreadSetPriority(osThreadGetId(), osPriorityRealtime);
 			// 모터 정지 !!!
 			motorEmergencyState(_DEF_MOTOR1);
+			// 3. Emergency State 전송
+			canSendDataInt(CAN_STDID_MOTOR, -1);
 		}
 		else
 		{
@@ -108,10 +110,12 @@ static void threadMotor(void const *argument)
 			osMutexWait(uartMutexHandle, osWaitForever);
 			logPrintf("Rx Data : %.2f\r\n", rcv_ultrasonic_data);
 			osMutexRelease(uartMutexHandle);  // 뮤텍스 해제
+
+			// 모터 속도 전송하기
+			uint32_t motor_data = motorGetSpeed(_DEF_MOTOR1);
+			canSendDataInt(CAN_STDID_MOTOR, motor_data);
 			delay(30);
-
 		}
-
   }
 }
 
