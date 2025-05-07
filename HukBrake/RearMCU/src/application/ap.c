@@ -36,8 +36,14 @@ void apMain(void)
 		lcdClear();
 		lcdSetCursor(0, 0);
 		lcdPrintStr(buf);
-		sendCanData(0x100, t);
+		canSendDataDouble(CAN_STDID_ULTRASONIC, t);
 //		logPrintf("dist = %.2f\r\n", t);
+		uint32_t motor_data = canGetMotorData();
+		if (motor_data == -1){
+			lcdSetCursor(1, 5);
+			char emergency_buf[] = "EMERGENCY";
+			lcdPrintStr(emergency_buf);
+		}
 		delay(30);
 
 	}
