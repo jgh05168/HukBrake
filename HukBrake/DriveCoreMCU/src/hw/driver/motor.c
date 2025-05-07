@@ -263,7 +263,6 @@ void motorEmergencyState(uint8_t ch)
 			motorClose(ch);
 			// 2. 릴레이 신호 HIGH
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET);
-
 			break;
 	}
 }
