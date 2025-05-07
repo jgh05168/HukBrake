@@ -69,7 +69,7 @@ void canOpen(void)
 }
 
 
-void sendCanData(uint32_t StdId, double data)
+void canSendDataDouble(uint32_t StdId, double data)
 {
 	canTxHeader.StdId 		= StdId;
 	canTxHeader.RTR 			= CAN_RTR_DATA;
@@ -80,6 +80,12 @@ void sendCanData(uint32_t StdId, double data)
 
 	canTxMailbox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
 	HAL_CAN_AddTxMessage(&hcan, &canTxHeader, canTxData, &canTxMailbox);
+}
+
+
+uint32_t canGetMotorData(void)
+{
+	return can_rx_motor;
 }
 
 
