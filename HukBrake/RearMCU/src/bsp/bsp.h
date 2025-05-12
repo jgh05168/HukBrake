@@ -25,9 +25,12 @@
 
 
 #include "stm32f1xx_hal.h"
+#include "cmsis_os.h"
 
 
 void bspInit(void);
+void DelayInit(void);
+void DelayUS(uint32_t);
 
 void delay(uint32_t ms);
 uint32_t mills(void);

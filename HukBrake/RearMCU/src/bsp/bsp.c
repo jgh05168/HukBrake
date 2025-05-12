@@ -26,6 +26,49 @@ void bspInit(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+
+
+  DelayInit();
+}
+
+
+uint32_t HAL_GetTick(void)
+{
+#ifdef _USE_HW_RTOS
+  return osKernelSysTick();
+#else
+  return uwTick;
+#endif
+}
+
+
+void DelayInit(void)
+{
+  CoreDebug->DEMCR &= ~CoreDebug_DEMCR_TRCENA_Msk;
+  CoreDebug->DEMCR |=  CoreDebug_DEMCR_TRCENA_Msk;
+
+  DWT->CTRL &= ~DWT_CTRL_CYCCNTENA_Msk; //~0x00000001;
+  DWT->CTRL |=  DWT_CTRL_CYCCNTENA_Msk; //0x00000001;
+
+  DWT->CYCCNT = 0;
+
+  /* 3 NO OPERATION instructions */
+  __ASM volatile ("NOP");
+  __ASM volatile ("NOP");
+  __ASM volatile ("NOP");
+}
+
+
+void DelayUS(uint32_t us)
+{
+  uint32_t cycles = (SystemCoreClock/1000000L)*us;
+  uint32_t start = DWT->CYCCNT;
+  volatile uint32_t cnt;
+
+  do
+  {
+    cnt = DWT->CYCCNT - start;
+  } while(cnt < cycles);
 }
 
 
