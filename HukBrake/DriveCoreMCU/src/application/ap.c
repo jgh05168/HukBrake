@@ -26,7 +26,7 @@ void apInit(void)
 	uartOpen(_DEF_UART1, 115200);
 	motorOpen(_DEF_MOTOR1);
 	/* CAN 세팅 */
-	setCanFilter(0x7F0, 0x10C, 0x7F0, 0x10C);				// 예시로 잡아둠
+	setCanFilter(0x7FF, 0x100, 0x7FF, 0x101);				// 예시로 잡아둠
 	canOpen();
 
 
