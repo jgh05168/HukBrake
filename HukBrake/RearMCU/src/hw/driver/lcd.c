@@ -23,8 +23,7 @@ static void Send(uint8_t, uint8_t);
 static void Write4Bits(uint8_t);
 static void ExpanderWrite(uint8_t);
 static void PulseEnable(uint8_t);
-static void DelayInit(void);
-static void DelayUS(uint32_t);
+
 
 uint8_t special1[8] = {
         0b00000,
@@ -275,31 +274,4 @@ static void PulseEnable(uint8_t _data)
 
   ExpanderWrite(_data & ~ENABLE);
   DelayUS(20);
-}
-
-static void DelayInit(void)
-{
-  CoreDebug->DEMCR &= ~CoreDebug_DEMCR_TRCENA_Msk;
-  CoreDebug->DEMCR |=  CoreDebug_DEMCR_TRCENA_Msk;
-
-  DWT->CTRL &= ~DWT_CTRL_CYCCNTENA_Msk; //~0x00000001;
-  DWT->CTRL |=  DWT_CTRL_CYCCNTENA_Msk; //0x00000001;
-
-  DWT->CYCCNT = 0;
-
-  /* 3 NO OPERATION instructions */
-  __ASM volatile ("NOP");
-  __ASM volatile ("NOP");
-  __ASM volatile ("NOP");
-}
-
-static void DelayUS(uint32_t us) {
-  uint32_t cycles = (SystemCoreClock/1000000L)*us;
-  uint32_t start = DWT->CYCCNT;
-  volatile uint32_t cnt;
-
-  do
-  {
-    cnt = DWT->CYCCNT - start;
-  } while(cnt < cycles);
 }
