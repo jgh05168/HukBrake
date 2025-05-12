@@ -33,7 +33,7 @@ void canInit(void)
 	hcan.Init.TimeSeg1 = CAN_BS1_5TQ;
 	hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 	hcan.Init.TimeTriggeredMode = DISABLE;
-	hcan.Init.AutoBusOff = DISABLE;
+	hcan.Init.AutoBusOff = ENABLE;
 	hcan.Init.AutoWakeUp = DISABLE;
 	hcan.Init.AutoRetransmission = ENABLE;
 	hcan.Init.ReceiveFifoLocked = DISABLE;
@@ -64,7 +64,12 @@ void setCanFilter(uint32_t filterMaskHigh, uint32_t filterIdHigh, uint32_t filte
 
 void canOpen(void)
 {
-	HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
+	if (HAL_CAN_ActivateNotification(&hcan,
+									 CAN_IT_RX_FIFO0_MSG_PENDING |
+									 CAN_IT_BUSOFF) 						 != HAL_OK)
+	{
+		Error_Handler();
+	}
 	HAL_CAN_Start(&hcan);
 }
 
