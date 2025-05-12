@@ -15,7 +15,7 @@ void apInit(void)
 	uartOpen(_DEF_UART1, 115200);
 	i2cOpen(_DEF_I2C1, 100000);
 	/* CAN 세팅 */
-	setCanFilter(0x7F0, 0x10C, 0x7F0, 0x10C);
+	setCanFilter(0x7FF, 0x101, 0x7FF, 0x100);
 	canOpen();
 	/* LCD 세팅 */
 	lcdInit(2);
@@ -35,14 +35,21 @@ void apMain(void)
 		sprintf(buf, "%.2f", (float)t);
 		lcdClear();
 		lcdSetCursor(0, 0);
-		lcdPrintStr(buf);
+//		lcdPrintStr(buf);
 		canSendDataDouble(CAN_STDID_ULTRASONIC, t);
 //		logPrintf("dist = %.2f\r\n", t);
 		uint32_t motor_data = canGetMotorData();
-		if (motor_data == -1){
+		if (motor_data == -1)
+		{
 			lcdSetCursor(1, 5);
 			char emergency_buf[] = "EMERGENCY";
 			lcdPrintStr(emergency_buf);
+		}
+		else
+		{
+			itoa(motor_data, buf, 10);
+			lcdPrintStr(buf);
+			logPrintf("motor_speed : %d\r\n", motor_data);
 		}
 		delay(30);
 
