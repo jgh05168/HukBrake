@@ -152,11 +152,12 @@ graph LR
 
 ### 차량 사진
 
-<figure style="text-align: center;">
-  <img src="docs/images/차량전체사진.jpg" alt="hw 구조도" width="600"/>
-    <figcaption style="clear: both; text-align: center; font-size: 16px; margin-top: 5px;">차량 전체 사진</figcaption>
-
-</figure>
+<div style="display: flex; justify-content: center; gap: 10%; align-items: flex-end; text-align: center;">
+  <div>
+     <img src="docs/images/차량전체사진.jpg" alt="hw 구조도" width="600"/>
+    <div>차량 전체 사진</div>
+  </div>
+</div>
 
 ### CAN 통신 
 
@@ -234,14 +235,13 @@ graph LR
 
 ## **7. 시연 영상**
 
-<div style="display: flex; justify-content: center; gap: 10%; align-items: flex-end; text-align: center;">
-  <div>
-    <img src="docs/images/emergency.gif" alt="emergency" width="275"/>
-    <div><strong>Emergency Brake 작동</strong></div>
-  </div>
-  <div>
-    <img src="docs/images/move.gif" alt="move" width="250"/>
-    <div><strong>후진 중 모터 동작</strong></div>
-  </div>
-</div>
-
+<table>
+  <tr>
+    <td><img src="docs/images/emergency.gif" alt="emergency" width="275"/></td>
+    <td><img src="docs/images/move.gif" alt="move" width="250"/></td>
+  </tr>
+  <tr>
+    <td style="text-align: center;"><strong>Emergency Brake 작동</strong></td>
+    <td style="text-align: center;"><strong>후진 중 모터 동작</strong></td>
+  </tr>
+</table>
