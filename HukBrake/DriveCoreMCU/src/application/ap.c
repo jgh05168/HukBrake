@@ -18,6 +18,10 @@ osMutexId uartMutexHandle;
  */
 
 
+/* private variables */
+int is_forward = 0;
+
+
 static void threadMotor(void const *argument);
 
 
@@ -103,18 +107,42 @@ static void threadMotor(void const *argument)
 			{
 				motorOpen(_DEF_MOTOR1);
 			}
-			motorSetSpeed(_DEF_MOTOR1, 100);
-			motorDir(FORWARD);
+
+			// 모터 전/후진 제어
+			if (!switchState())
+			{
+				if (!is_forward)
+				{
+					motorSetSpeed(_DEF_MOTOR1, 0);
+					delay(10);
+					is_forward = 1;
+				}
+				motorDir(FORWARD);
+				motorSetSpeed(_DEF_MOTOR1, 100);
+			}
+			else
+			{
+				if (is_forward)
+				{
+					motorSetSpeed(_DEF_MOTOR1, 0);
+					delay(20);
+					is_forward = 0;
+				}
+				motorDir(BACKWARD);
+				motorSetSpeed(_DEF_MOTOR1, 80);
+			}
+
+			// 모터 속도 전송하기
+			uint32_t motor_data = motorGetSpeed(_DEF_MOTOR1);
+			canSendDataInt(CAN_STDID_MOTOR, motor_data);
+			delay(30);
 
 			// 전후진 모터 속도 제어
 			osMutexWait(uartMutexHandle, osWaitForever);
 			logPrintf("Rx Data : %.2f\r\n", rcv_ultrasonic_data);
 			osMutexRelease(uartMutexHandle);  // 뮤텍스 해제
 
-			// 모터 속도 전송하기
-			uint32_t motor_data = motorGetSpeed(_DEF_MOTOR1);
-			canSendDataInt(CAN_STDID_MOTOR, motor_data);
-			delay(30);
+
 		}
   }
 }
