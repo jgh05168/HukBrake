@@ -40,6 +40,9 @@
 #define _USE_HW_RESET
 #define _USE_HW_FLASH
 
+#define _USE_HW_SWITCH
+
+
 #define _USE_HW_MOTOR
 #define 		HW_MOTOR_MAX_CH				1U
 

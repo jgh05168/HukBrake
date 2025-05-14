@@ -18,6 +18,7 @@
 #include "flash.h"
 #include "motor.h"
 #include "can.h"
+#include "switch.h"
 
 
 void hwInit(void);
