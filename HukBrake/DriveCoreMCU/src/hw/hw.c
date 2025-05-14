@@ -17,6 +17,7 @@ void hwInit(void)
 
 	resetInit();
 	ledInit();
+	switchInit();
 	uartInit();
 	flashInit();
 	motorInit(72 - 1, 100 - 1);			// parameter : prescaler, clock_period
