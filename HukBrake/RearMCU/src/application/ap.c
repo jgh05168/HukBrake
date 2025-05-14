@@ -150,6 +150,10 @@ static void threadLcd(void const *argument)
 			lcdPrintStr(direction_buf);
 
 			lcdSetCursor(2, 1);
+			if (motor_data != 100)
+			{
+				motor_data = 30;
+			}
 			itoa(motor_data, buf, 10);
 			sprintf(speed_buf, "Speed : %skm", buf);
 			lcdPrintStr(speed_buf);
