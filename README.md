@@ -152,23 +152,11 @@ graph LR
 
 ### 차량 사진
 
-<div style="position: relative; display: inline-block; text-align: center;">
+<figure style="text-align: center;">
   <img src="docs/images/차량전체사진.jpg" alt="hw 구조도" width="600"/>
-  <div style="
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 4px 12px;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 4px;
-  ">
-    차량 외부 모습
-  </div>
-</div>
+    <figcaption style="clear: both; text-align: center; font-size: 16px; margin-top: 5px;">차량 전체 사진</figcaption>
+
+</figure>
 
 ### CAN 통신 
 
