@@ -161,7 +161,7 @@ graph LR
 
 ### CAN 통신 
 
-<img src="docs/images/can트랜시버.jpg" alt="hw 구조도" width="600" style="margin-left: 5%;"/>
+<img src="docs/images/can트랜시버.jpg" alt="hw 구조도" width="500" style="margin-left: 5%;"/>
 
 - UART를 통해 각 보드에서 데이터가 실시간으로 전송되는 것을 확인하였으며, 오차없이 빠르게 전송되는 것을 확인함.
 
